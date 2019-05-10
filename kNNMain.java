@@ -6,12 +6,23 @@ import java.util.Arrays;
 
 public class kNNMain{
 
-  public static void main(String... args) throws FileNotFoundException{
+  public static void main(String... args) throws FileNotFoundException
+  {
+	double fractionTrainingSet = 0.8;
+	double fractionTestSet = 1.0 - fractionTrainingSet;
 
     // TASK 1: Use command line arguments to point DataSet.readDataSet method to
     // the desired file. Choose a given DataPoint, and print its features and label
-
-
+	  
+	 String pathToData = args[0];
+	 List<DataPoint> Data = DataSet.readDataSet(pathToData);
+	 System.out.println(pathToData);
+	 
+	 DataPoint randompt = Data.get(75);
+	 System.out.println("Printing label: " + randompt.label);
+	 
+	 String convertedlist = Arrays.toString(randompt.getX());
+	 System.out.println(convertedlist);
 
     //TASK 2:Use the DataSet class to split the fullDataSet into Training and Held Out Test Dataset
 
