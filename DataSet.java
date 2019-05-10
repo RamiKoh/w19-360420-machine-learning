@@ -165,8 +165,7 @@ public class DataSet {
   ///////////////////////////////////////////////////////////////////////////////////
   // "split off" trainingSet by setting testOrTrain variable for each dataPoint based on fraction
   // input by user
-  public static List<DataPoint> getTrainingSet(
-      List<DataPoint> fullDataSet, double fractionTrainingSet) {
+  public static List<DataPoint> getTrainingSet(List<DataPoint> fullDataSet, double fractionTrainingSet) {
 
     // Random rnd = new Random(123);
     // Collections.shuffle(fullDataSet);
