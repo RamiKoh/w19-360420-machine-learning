@@ -9,8 +9,8 @@
 
 ## Analysis of different error types
 
-Why is the accuracy different with each new run of the classification model? 
-     Because there is a shuffle! In other words, the line ìCollections.shuffle(fullDataSet)î   rearranges the elements of the array in a random order every time the getTestSet() method is called. 
+**Why is the accuracy different with each new run of the classification model?**
+     Because there is a shuffle! In other words, the line ‚ÄúCollections.shuffle(fullDataSet)‚Äù   rearranges the elements of the array in a random order every time the getTestSet() method is called. 
 Run the entire classification process 1000 times (load data, split into off 30% for a test set, evaluate model performance). Store the results of each run in a double[]; use the mean and standardDeviation methods in kNNMain.java to calculate how much performance can be expected to vary on unseen data.
      The average accuracy is equal to 76.982 % and the standard deviation is equal to 69.820%. A large standard deviation means that the data are further from the mean (more spread out). This means that the model is not as accurate as it would be for a model with a lower standard deviation, in which the data points are near each other. The model therefore does not represent the data properly.   
 What is a sensible baseline against which we should compare our model's performance?
