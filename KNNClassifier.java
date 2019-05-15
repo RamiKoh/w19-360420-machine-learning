@@ -100,6 +100,7 @@ public class kNNMain
 	  System.out.println("Precision: "+ precision[johncena]);
 	  System.out.println("Recall: "+ recall[johncena]);
 	}
+	  System.out.println();
 	  System.out.println("Average Precision: "+ mean(precision));
 	  System.out.println("Average Recall: "+ mean(recall));
 	  System.out.println("Mean: " + mean(accuracypercent));
