@@ -1,146 +1,134 @@
-/*
-KNNClassifier.java
-Author: Sameer Bhatnagar
-*/
-
 import java.util.List;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Set;
-
-public class KNNClassifier{
-  /*
-  Class that implements k-Nearest Neighbor Classifier, where k is the number of
-  closest neighbors that are used to determine the class of a datapoint
-
-  - Dependencies:
-    - DataPoint.java
-    - DataSet.java for Euclidean distance
-
-  methods:
-    - KNNClassifier (constructor)
-    - getNearestNeighbors
-    - predict
-  */
-  private int k;
-
-
-  /////////////////////////////////////////////////////////////////////////
-  // Constructor
-  /////////////////////////////////////////////////////////////////////////
-  public KNNClassifier(int k){
-    this.k = k;
-  }
-  /////////////////////////////////////////////////////////////////////////
-
-
-  /////////////////////////////////////////////////////////////////////////
-  public DataPoint[] getNearestNeighbors(List<DataPoint> allPoints, DataPoint dp){
-  /*
-  Arguments:
-    - List of DataPoint objects
-    - Target DataPoint
-
-  Returns:
-    - array holding DataPoint objects, in ascending order of distance to Target DataPoint
-  */
-    DataPoint[] nearestNeighbors = new DataPoint[this.k];
-    Double[] nearestDistances = new Double[this.k];
-
-    // initialize to some very large distances
-    for (int i = 0;i<this.k; i++){
-      nearestDistances[i] = 100000.;
-    }
-
-    Arrays.sort(nearestDistances);
-
-    // Scan through all dataPoints to find the k closest neighbors
-    for (DataPoint p:allPoints){
-
-      double d = DataSet.distanceEuclid(p,dp);
-
-      //iterate through the sorted  list of nearest neighbors/distances
-      checkNearestNeighbors:
-      for (int j=0; j< nearestDistances.length; j++){
-          //if distance is less than current point p, move list items up in queue, and swap in current p
-          if (d < nearestDistances[j]){
-            //if we are not at farthest near neighbour yet seen
-            if (j < nearestDistances.length - 1){
-              nearestDistances[j+1]=nearestDistances[j];
-              nearestNeighbors[j+1]=nearestNeighbors[j];
-            } // if we are at end of array, simply replace the last element with current one
-
-            nearestDistances[j]=d;
-            nearestNeighbors[j]=p;
-            break checkNearestNeighbors; // stop checking other elements if inserted this p already
-          }
-        }
-      }
-
-    return nearestNeighbors;
-  }
-  /////////////////////////////////////////////////////////////////////////
 
 
 
-  /////////////////////////////////////////////////////////////////////////
-  public int getLabelFrequency(String targetLabel, DataPoint[] allPoints){
-
-    int count = 0;
-
-    for (DataPoint p : allPoints ){
-      if (p.getLabel().equals(targetLabel)){
-        count++;
-      }
-    }
-
-    return count;
-  }
-  /////////////////////////////////////////////////////////////////////////
-
-
-
-// https://stackoverflow.com/questions/22911722/how-to-find-array-index-of-largest-value
-public int getIndexOfLargest( int[] array )
+public class kNNMain
 {
-  if ( array == null || array.length == 0 ) return -1; // null or empty
-
-  int largest = 0;
-  for ( int i = 1; i < array.length; i++ )
+  public static void main(String... args) throws FileNotFoundException
   {
-      if ( array[i] > array[largest] ) largest = i;
-  }
-  return largest; // position of the first largest found
+    // TASK 1: Use command line arguments to point DataSet.readDataSet method to
+    // the desired file. Choose a given DataPoint, and print its features and label
+	 double [] accuracypercent = new double [1000];
+	 double [] precision = new double [1000];
+	 double [] recall = new double [1000];
+	 
+	 for (int johncena = 0; johncena < 1000; johncena++) 
+	 {
+		 String pathToData = args[0];
+		 List<DataPoint> Data = DataSet.readDataSet(pathToData);
+		 //System.out.println(pathToData);
+		 
+		 DataPoint randompt = Data.get(75);
+		// System.out.println("Printing label: " + randompt.label);
+		 
+		 String convertedlist = Arrays.toString(randompt.getX());
+		 //System.out.println(convertedlist);
+	
+	    //TASK 2:Use the DataSet class to split the fullDataSet into Training and Held Out Test Dataset
+		 double fractionTrainingSet = 0.3;
+		 double fractionTestSet = 1.0 - fractionTrainingSet;
+		 
+		 List<DataPoint> testSet = DataSet.getTestSet(Data, fractionTestSet);
+		 List<DataPoint> trainingSet = DataSet.getTrainingSet(Data, fractionTrainingSet);
+		 
+	
+	    // TASK 4: write a new method in DataSet.java which takes as arguments two DataPoint objects,
+	    // and returns the Euclidean distance between those two points (as a double)
+	
+		 /*double dist = DataSet.distanceEuclid();
+		 Sytem.out.println("Distance: " + dist);*/
+		 //Done in DataSet anyway
+	
+	    // TASK 5: Use the KNNClassifier class to determine the k nearest neighbors to a given DataPoint,
+	    // and make it print a predicted target label
+		 
+		 DataPoint dp = testSet.get(10);
+		 KNNClassifier myObject = new KNNClassifier(3);
+		 String stuff = myObject.predict(trainingSet, dp);
+		 //System.out.println(stuff);
+		 
+	
+	    // TASK 6: loop over the datapoints in the held out test set, and make predictions for Each
+	    // point based on nearest neighbors in training set. Calculate accuracy of model.
+	  
+	  /*
+	  Method that takes as an argument an array of doubles
+	  Returns: average of the elements of array, as a double
+	  */
+	  
+	  double norman = 0.0;
+	  double reedus= 0.0;
+	  double elonmosquito = 0.0;
+	  double markzucchini = 0.0; 
+	  double DnD = 0.0; 
+	  
+	  for (int i = 0; i < testSet.size(); i++)
+	  {
+		  KNNClassifier myObject2 = new KNNClassifier(9);
+		  DataPoint apoint = testSet.get(i);
+		  String first = apoint.getLabel();
+		  String predicted = myObject2.predict(trainingSet, apoint);
+		  
+		  if (predicted.equals(first))
+		  {
+			  norman++; //True Positives
+			  if (predicted.equals("malignant"))
+			  {
+				markzucchini++;
+			  }
+		  }
+		  if (predicted.equals("malignant"))
+			{  
+				elonmosquito++;
+			}
+			 if (apoint.equals("malignant"))
+			{     
+				DnD++;
+			}
+		  reedus++;
+		  //System.out.println(first + "     " + predicted);
+	  }
+	  accuracypercent[johncena] = (norman/reedus)*100;
+	  recall[johncena] = (markzucchini/norman)*100;
+	  precision[johncena]= (markzucchini/elonmosquito)*100;
+	  
+	  System.out.println("Iteration #" + (johncena+1));
+	  System.out.println("Accuracy: " + accuracypercent[johncena]);
+	  System.out.println("Precision: "+ precision[johncena]);
+	  System.out.println("Recall: "+ recall[johncena]);
+	}
+	  System.out.println("Average Precision: "+ mean(precision));
+	  System.out.println("Average Recall: "+ mean(recall));
+	  System.out.println("Mean: " + mean(accuracypercent));
+	  System.out.println("Standard Deviation: " + standardDeviation(accuracypercent));
 }
+  
+  public static double mean(double[] arr){
+	    /*
+	    Method that takes as an argument an array of doubles
+	    Returns: average of the elements of array, as a double
+	    */
+	    double sum = 0.0;
 
+	    for (double a : arr){
+	      sum += a;
+	    }
+	    return (double)sum/arr.length;
+	  }
 
-
-
-  /////////////////////////////////////////////////////////////////////////
-  public String predict(List<DataPoint> allPoints, DataPoint dp){
-  /*
-  Arguments:
-    - DataPoint on which to predict target label
-
-  Returns:
-    - String Target label
-  */
-
-  DataPoint[] nearestNeighbors = getNearestNeighbors(allPoints, dp);
-
-  Set<String> labelsSet =  DataSet.getLabels(allPoints);
-  String[] labelsArray = labelsSet.toArray(new String[labelsSet.size()]);
-  int[] labelsCounts = new int[labelsArray.length];
-
-
-  for (int i=0; i<labelsArray.length;i++){
-      labelsCounts[i] = getLabelFrequency(labelsArray[i],nearestNeighbors);
-  }
-
-  int idx = getIndexOfLargest(labelsCounts);
-  String predictedLabel = labelsArray[idx];
-
-  return predictedLabel;
-  }
-  /////////////////////////////////////////////////////////////////////////
-
+	  public static double standardDeviation(double[] arr){
+	    /*
+	    Method that takes as an argument an array of doubles
+	    Returns: standard deviation of the elements of array, as a double
+	    Dependencies: requires the *mean* method written above
+	    */
+	    double avg = mean(arr);
+	    double sum = 0.0;
+	    for (double a : arr){
+	      sum += Math.pow(a-avg,2);
+	    }
+	    return (double)sum/arr.length;
+	  }
 }
