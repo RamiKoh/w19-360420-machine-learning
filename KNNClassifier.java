@@ -94,6 +94,7 @@ public class kNNMain
 	  recall[johncena] = (markzucchini/norman)*100;
 	  precision[johncena]= (markzucchini/elonmosquito)*100;
 	  
+          System.out.println();
 	  System.out.println("Iteration #" + (johncena+1));
 	  System.out.println("Accuracy: " + accuracypercent[johncena]);
 	  System.out.println("Precision: "+ precision[johncena]);
