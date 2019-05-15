@@ -73,7 +73,7 @@ public class kNNMain
 		  
 		  if (predicted.equals(first))
 		  {
-			  norman++; //True Positives
+			  norman++;
 			  if (predicted.equals("malignant"))
 			  {
 				markzucchini++;
